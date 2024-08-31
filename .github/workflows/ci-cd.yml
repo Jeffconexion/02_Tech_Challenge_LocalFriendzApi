@@ -28,6 +28,10 @@ jobs:
       - name: Build
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # ajuste o caminho para o arquivo de solução ou projeto
 
+      # Executar StyleCop (não há comando específico para o StyleCop, pois ele é integrado no build)
+      - name: Run StyleCop
+        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore
+
       # Executar testes
       - name: Test
         run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # ajuste o caminho para o arquivo de solução ou projeto

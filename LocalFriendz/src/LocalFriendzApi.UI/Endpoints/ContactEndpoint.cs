@@ -1,4 +1,11 @@
-﻿using FluentValidation;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="ContactEndpoint.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using FluentValidation;
 using LocalFriendzApi.Application.IServices;
 using LocalFriendzApi.Application.Request;
 using LocalFriendzApi.Application.Response;
