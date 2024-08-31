@@ -1,5 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="CustomLoggerProvider.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
 using System.Collections.Concurrent;
+using Microsoft.Extensions.Logging;
 
 namespace LocalFriendzApi.Infrastructure.Logging
 {
@@ -16,7 +23,6 @@ namespace LocalFriendzApi.Infrastructure.Logging
         public ILogger CreateLogger(string categoryName)
         {
             return loggers.GetOrAdd(categoryName, name => new CustomLogger(name, _loggerConfiguration));
-
         }
 
         public void Dispose()

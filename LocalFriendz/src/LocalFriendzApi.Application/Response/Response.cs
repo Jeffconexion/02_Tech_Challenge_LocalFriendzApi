@@ -1,4 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="Response.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using System.Text.Json.Serialization;
 
 namespace LocalFriendzApi.Application.Response
 {
@@ -17,6 +24,7 @@ namespace LocalFriendzApi.Application.Response
         }
 
         public TData? Data { get; set; }
+
         public string? Message { get; set; }
 
         [JsonIgnore]

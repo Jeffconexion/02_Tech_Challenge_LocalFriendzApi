@@ -1,11 +1,18 @@
-﻿using FluentAssertions;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="ContactServicesUnitTests.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using System.Linq.Expressions;
+using FluentAssertions;
 using LocalFriendzApi.Application.Request;
 using LocalFriendzApi.Application.Services;
 using LocalFriendzApi.Domain.IRepositories;
 using LocalFriendzApi.Domain.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Linq.Expressions;
 
 namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
 {
@@ -22,7 +29,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var request = new CreateContactRequest
             {
                 Name = "John Doe",
-                Email = "john.doe@example.com"
+                Email = "john.doe@example.com",
             };
             var contact = request.ToEntity(request);
 
@@ -48,7 +55,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var request = new CreateContactRequest
             {
                 Name = "Jane Doe",
-                Email = "jane.doe@example.com"
+                Email = "jane.doe@example.com",
             };
             var contact = request.ToEntity(request);
 
@@ -108,7 +115,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             // Assert
             response.Should().NotBeNull();
             response.IsSuccess.Should().Be(false);
-
         }
 
         [Fact]
@@ -131,7 +137,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             response.Should().NotBeNull();
             response.IsSuccess.Should().Be(false);
             response.Message.Should().Be("Internal server erro!");
-
         }
 
         [Fact]
@@ -145,16 +150,16 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var request = new GetAllContactRequest
             {
                 PageNumber = 1,
-                PageSize = 10
+                PageSize = 10,
             };
             var contacts = new List<Contact>
         {
             new Contact { Id = Guid.NewGuid(), Name = "John Doe" },
-            new Contact { Id = Guid.NewGuid(), Name = "Jane Doe" }
+            new Contact { Id = Guid.NewGuid(), Name = "Jane Doe" },
         }.AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             // Act
             var response = await contactServices.GetAllContactsWithAreaCode(request);
@@ -165,7 +170,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             response.Message.Should().Be("Contacts found!");
             response.Data.Should().NotBeNull();
             response.Data.Should().HaveCount(contacts.Count());
-
         }
 
         [Fact]
@@ -179,12 +183,12 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var request = new GetAllContactRequest
             {
                 PageNumber = 1,
-                PageSize = 10
+                PageSize = 10,
             };
             var contacts = new List<Contact>().AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             // Act
             var response = await contactServices.GetAllContactsWithAreaCode(request);
@@ -194,8 +198,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             response.Code.Should().Be(404);
             response.Message.Should().Be("Not found contact.");
             response.Data.Should().BeNull();
-
-
         }
 
         [Fact]
@@ -209,7 +211,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var request = new GetAllContactRequest
             {
                 PageNumber = 1,
-                PageSize = 10
+                PageSize = 10,
             };
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())
@@ -238,11 +240,11 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var contacts = new List<Contact>
                                             {
                                                 new Contact { Id = Guid.NewGuid(), Name = "John Doe" },
-                                                new Contact { Id = Guid.NewGuid(), Name = "Jane Doe" }
+                                                new Contact { Id = Guid.NewGuid(), Name = "Jane Doe" },
                                             }.AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetContactByCodeRegion(codeRegion))
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             // Act
             var response = await contactServices.GetByFilter(request.CodeRegion);
@@ -268,7 +270,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             var contacts = new List<Contact>().AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetContactByCodeRegion(codeRegion))
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             // Act
             var response = await contactServices.GetByFilter(request.CodeRegion);
@@ -278,7 +280,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             response.Code.Should().Be(404);
             response.Message.Should().Be("Not found contact.");
             response.Data.Should().BeNull();
-
         }
 
         [Fact]
@@ -318,7 +319,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
                 Name = "Updated Name",
                 Email = "updated.email@example.com",
                 Phone = "123456789",
-                AreaCode = "001"
+                AreaCode = "001",
             };
 
             var existingContact = new Contact
@@ -327,13 +328,13 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
                 Name = "John Doe",
                 Email = "john.doe@example.com",
                 Phone = "987654321",
-                AreaCode = new AreaCode { CodeRegion = "002" }
+                AreaCode = new AreaCode { CodeRegion = "002" },
             };
 
             var contacts = new List<Contact> { existingContact }.AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             mockContactRepository.Setup(repo => repo.Update(It.IsAny<Contact>()))
                 .Returns(Task.CompletedTask);
@@ -365,13 +366,13 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
                 Name = "Updated Name",
                 Email = "updated.email@example.com",
                 Phone = "123456789",
-                AreaCode = "001"
+                AreaCode = "001",
             };
 
             var contacts = new List<Contact>().AsQueryable();
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())
-                .ReturnsAsync(contacts);
+                .Returns(contacts);
 
             // Act
             var response = await contactServices.UpdateContact(id, request);
@@ -380,7 +381,6 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
             response.Should().NotBeNull();
             response.Code.Should().Be(404);
             response.Message.Should().Be("Contact not found!");
-
         }
 
         [Fact]
@@ -397,7 +397,7 @@ namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
                 Name = "Updated Name",
                 Email = "updated.email@example.com",
                 Phone = "123456789",
-                AreaCode = "001"
+                AreaCode = "001",
             };
 
             mockContactRepository.Setup(repo => repo.GetAllContactWithAreaCode())

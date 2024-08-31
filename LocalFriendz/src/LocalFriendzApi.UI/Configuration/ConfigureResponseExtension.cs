@@ -1,4 +1,11 @@
-﻿using LocalFriendzApi.Application.Response;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="ConfigureResponseExtension.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using LocalFriendzApi.Application.Response;
 using LocalFriendzApi.Domain.Models;
 
 namespace LocalFriendzApi.UI.Configuration
@@ -13,13 +20,10 @@ namespace LocalFriendzApi.UI.Configuration
                     return TypedResults.Ok(response);
                 case 201:
                     return TypedResults.Created(response.Data.FirstOrDefault().Name);
-                    break;
                 case 400:
                     return TypedResults.BadRequest(response);
-                    break;
                 case 404:
                     return TypedResults.NotFound(response);
-                    break;
                 default:
                     return TypedResults.NoContent();
             }
@@ -33,13 +37,10 @@ namespace LocalFriendzApi.UI.Configuration
                     return TypedResults.Ok(response);
                 case 201:
                     return TypedResults.Created(response.Data.Name);
-                    break;
                 case 400:
                     return TypedResults.BadRequest(response);
-                    break;
                 case 404:
                     return TypedResults.NotFound(response);
-                    break;
                 default:
                     return TypedResults.NoContent();
             }

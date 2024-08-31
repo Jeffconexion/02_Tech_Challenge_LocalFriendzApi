@@ -1,4 +1,11 @@
-﻿using FluentValidation;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="BuildExtension.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using FluentValidation;
 using LocalFriendzApi.Application.IServices;
 using LocalFriendzApi.Application.Services;
 using LocalFriendzApi.Application.Validations;
@@ -9,7 +16,6 @@ using LocalFriendzApi.Infrastructure.Logging;
 using LocalFriendzApi.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Refit;
-
 
 namespace LocalFriendzApi.UI.Configuration
 {
@@ -62,7 +68,7 @@ namespace LocalFriendzApi.UI.Configuration
             builder.Logging.ClearProviders();
             builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
             {
-                LogLevel = LogLevel.Information
+                LogLevel = LogLevel.Information,
             }));
         }
 
@@ -81,5 +87,3 @@ namespace LocalFriendzApi.UI.Configuration
         }
     }
 }
-
-

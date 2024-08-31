@@ -5,6 +5,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
+using System.Net;
 using FluentValidation;
 using LocalFriendzApi.Application.IServices;
 using LocalFriendzApi.Application.Request;
@@ -12,7 +13,6 @@ using LocalFriendzApi.Application.Response;
 using LocalFriendzApi.Domain.Models;
 using LocalFriendzApi.Infrastructure.ExternalServices.Interfaces;
 using LocalFriendzApi.UI.Configuration;
-using System.Net;
 
 namespace LocalFriendzApi.UI.Endpoints
 {
@@ -24,7 +24,6 @@ namespace LocalFriendzApi.UI.Endpoints
 
             contactGroup.MapPost("api/create", async (IContactServices contactServices, IAreaCodeExternalService areaCodeExternalService, IValidator<CreateContactRequest> validator, CreateContactRequest request) =>
             {
-
                 var validationResult = await validator.ValidateAsync(request);
 
                 if (validationResult.IsValid is false)
@@ -43,7 +42,6 @@ namespace LocalFriendzApi.UI.Endpoints
 
                 var response = await contactServices.CreateContact(request);
                 return response.ConfigureResponseStatus();
-
             })
             .WithTags("Contact")
             .WithName("Contact: Create Contact")
@@ -56,10 +54,9 @@ namespace LocalFriendzApi.UI.Endpoints
 
             contactGroup.MapGet("api/list-all", async (IContactServices contactServices) =>
             {
-                GetAllContactRequest request = new();
+                var request = new GetAllContactRequest();
                 var response = await contactServices.GetAllContactsWithAreaCode(request);
                 return response.ConfigureResponseStatus();
-
             })
             .WithTags("Contact")
             .WithName("Contact: Gets Record")
@@ -74,7 +71,6 @@ namespace LocalFriendzApi.UI.Endpoints
             {
                 var response = await contactServices.GetByFilter(codeRegion);
                 return response.ConfigureResponseStatus();
-
             })
             .WithTags("Contact")
             .WithName("Contact: Get Record")
@@ -96,7 +92,6 @@ namespace LocalFriendzApi.UI.Endpoints
 
                 var response = await contactServices.UpdateContact(id, request);
                 return response.ConfigureResponseStatus();
-
             })
             .WithTags("Contact")
             .WithName("Contact: Update")
@@ -111,7 +106,6 @@ namespace LocalFriendzApi.UI.Endpoints
             {
                 var response = await contactServices.DeleteContact(id);
                 return response.ConfigureResponseStatus();
-
             })
               .WithTags("Contact")
               .WithName("Contact: remove")

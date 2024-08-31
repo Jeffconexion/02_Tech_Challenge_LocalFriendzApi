@@ -1,12 +1,20 @@
-﻿using LocalFriendzApi.Domain.IRepositories;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="Repository.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using System.Linq.Expressions;
+using LocalFriendzApi.Domain.IRepositories;
 using LocalFriendzApi.Domain.Models;
 using LocalFriendzApi.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace LocalFriendzApi.Infrastructure.Repositories
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity, new()
+    public abstract class Repository<TEntity> : IRepository<TEntity>
+        where TEntity : Entity, new()
     {
         protected readonly AppDbContext Db;
         protected readonly DbSet<TEntity> DbSet;
@@ -16,6 +24,7 @@ namespace LocalFriendzApi.Infrastructure.Repositories
             Db = db;
             DbSet = db.Set<TEntity>();
         }
+
         public async Task Add(TEntity entity)
         {
             DbSet.Add(entity);
@@ -33,6 +42,7 @@ namespace LocalFriendzApi.Infrastructure.Repositories
             DbSet.Remove(new TEntity { Id = id });
             await SaveChanges();
         }
+
         public async Task<int> SaveChanges()
         {
             return await Db.SaveChangesAsync();

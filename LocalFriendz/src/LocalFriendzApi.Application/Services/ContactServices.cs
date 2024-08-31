@@ -1,4 +1,11 @@
-﻿using LocalFriendzApi.Application.IServices;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="ContactServices.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using LocalFriendzApi.Application.IServices;
 using LocalFriendzApi.Application.Request;
 using LocalFriendzApi.Application.Response;
 using LocalFriendzApi.Domain.IRepositories;
@@ -20,7 +27,6 @@ namespace LocalFriendzApi.Application.Services
 
         public async Task<Response<Contact?>> CreateContact(CreateContactRequest request)
         {
-
             var contact = request.ToEntity(request);
 
             try
@@ -55,7 +61,6 @@ namespace LocalFriendzApi.Application.Services
 
                 _logger.LogInformation("Contact deleted successfully: {ContactId}", id);
 
-
                 return new Response<Contact?>(contact.First(), message: "Removed contact with sucess!");
             }
             catch (Exception ex)
@@ -69,7 +74,7 @@ namespace LocalFriendzApi.Application.Services
         {
             try
             {
-                var query = await _contactRepository.GetAllContactWithAreaCode();
+                var query = _contactRepository.GetAllContactWithAreaCode();
 
                 var contacts = query
                                        .Skip((request.PageNumber - 1) * request.PageSize)
@@ -105,12 +110,12 @@ namespace LocalFriendzApi.Application.Services
             var request = GetByCodeRegionRequest.RequestMapper(codeRegion);
             try
             {
-                var query = await _contactRepository.GetContactByCodeRegion(codeRegion);
+                var query = _contactRepository.GetContactByCodeRegion(codeRegion);
 
                 var contacts = query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
-                                       .ToList();
+                .ToList();
 
                 var count = query.Count();
 
@@ -140,7 +145,7 @@ namespace LocalFriendzApi.Application.Services
         {
             try
             {
-                var query = await _contactRepository.GetAllContactWithAreaCode();
+                var query = _contactRepository.GetAllContactWithAreaCode();
                 var contact = query.Where(c => c.Id == id).FirstOrDefault();
 
                 if (contact is null)

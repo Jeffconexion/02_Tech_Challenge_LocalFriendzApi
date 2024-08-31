@@ -1,4 +1,11 @@
-﻿using FluentValidation;
+﻿// --------------------------------------------------------------------------------------------------
+// <copyright file="CreateContactRequestValidator.cs" company="LocalFriendz">
+// Copyright (c) LocalFriendz. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// --------------------------------------------------------------------------------------------------
+
+using FluentValidation;
 using LocalFriendzApi.Application.Request;
 
 namespace LocalFriendzApi.Application.Validations
@@ -28,7 +35,6 @@ namespace LocalFriendzApi.Application.Validations
                 .Must(HaveUniquePhoneOrEmail).WithMessage("A contact with the same phone or email already exists.");
         }
 
-        #region
         private bool HaveUniquePhoneOrEmail(CreateContactRequest request)
         {
             // Simulate a uniqueness check. In a real scenario, you might query your database here.
@@ -39,6 +45,5 @@ namespace LocalFriendzApi.Application.Validations
 
             return !existingContacts.Any(c => c.Phone == request.Phone || c.Email == request.Email);
         }
-        #endregion
     }
 }
