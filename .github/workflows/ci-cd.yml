@@ -28,22 +28,9 @@ jobs:
       - name: Build
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # ajuste o caminho para o arquivo de solução ou projeto
 
-      # Executar StyleCop
+      # Executar StyleCop (não há comando específico para o StyleCop, pois ele é integrado no build)
       - name: Run StyleCop
-        id: stylecop
-        run: |
-          # Executa o build novamente com foco nos warnings de StyleCop
-          dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore > stylecop.log
-          # Exibe a saída para acompanhamento
-          cat stylecop.log
-
-      # Contar Warnings StyleCop
-      - name: Count StyleCop Warnings
-        if: always() # Executa sempre, independente do sucesso ou falha do passo anterior
-        run: |
-          # Conta o número de warnings do StyleCop
-          stylecop_warning_count=$(grep -i "SA" stylecop.log | wc -l)
-          echo "Total StyleCop Warnings: $stylecop_warning_count"
+        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore
 
       # Executar testes
       - name: Test
