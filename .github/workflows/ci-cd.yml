@@ -67,18 +67,22 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      # Passo 3: Instalar o SonarQube Scanner
-      - name: Step 3 Install SonarQube Scanner
-        run: |
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner.zip
-          export PATH=$(pwd)/sonar-scanner-4.8.0.2856-linux/bin:$PATH
+      # Passo 3: Configurar e Executar Análise com SonarCloud
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v3.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=LocalFriendz
+            -Dsonar.organization=your-organization
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-      # Passo 4: Configurar e Executar Análise com SonarQube
-      - name: Step 4 Run SonarQube Analysis
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=LocalFriendz \
-            -Dsonar.organization=your-organization \
-            -Dsonar.host.url=https://sonarcloud.io \
+      # Passo 4: Configurar o SonarCloud
+      - name: SonarCloud Configure
+        uses: SonarSource/sonarcloud-github-action@v3.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=LocalFriendz
+            -Dsonar.organization=your-organization
+            -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
