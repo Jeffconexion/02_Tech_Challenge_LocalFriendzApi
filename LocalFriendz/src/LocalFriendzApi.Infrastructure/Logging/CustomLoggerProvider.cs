@@ -5,8 +5,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
-using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace LocalFriendzApi.Infrastructure.Logging
 {

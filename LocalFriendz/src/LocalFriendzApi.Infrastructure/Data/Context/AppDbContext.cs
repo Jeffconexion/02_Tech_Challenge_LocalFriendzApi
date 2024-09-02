@@ -5,9 +5,9 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
-using System.Reflection;
 using LocalFriendzApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LocalFriendzApi.Infrastructure.Data.Context
 {

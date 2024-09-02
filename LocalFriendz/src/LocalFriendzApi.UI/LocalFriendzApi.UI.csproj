@@ -9,7 +9,7 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <Content Remove="stylecop.json" />
   </ItemGroup>
 

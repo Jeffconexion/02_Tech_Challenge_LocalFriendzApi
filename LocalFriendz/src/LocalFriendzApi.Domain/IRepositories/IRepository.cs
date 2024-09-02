@@ -5,8 +5,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
-using System.Linq.Expressions;
 using LocalFriendzApi.Domain.Models;
+using System.Linq.Expressions;
 
 namespace LocalFriendzApi.Domain.IRepositories
 {

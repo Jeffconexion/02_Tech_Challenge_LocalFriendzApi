@@ -5,7 +5,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
-using System.Linq.Expressions;
 using FluentAssertions;
 using LocalFriendzApi.Application.Request;
 using LocalFriendzApi.Application.Services;
@@ -13,6 +12,7 @@ using LocalFriendzApi.Domain.IRepositories;
 using LocalFriendzApi.Domain.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Linq.Expressions;
 
 namespace LocalFriendzApi.UnitTests.ApplicationUnitTests
 {
