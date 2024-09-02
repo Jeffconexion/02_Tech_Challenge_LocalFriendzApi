@@ -51,4 +51,4 @@ jobs:
 
       # Passo 3: Executar testes
       - name: Step 3 Run Tests
-        run: dotnet test ./LocalFriendz/LocalFriendz.sln --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
+        run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
