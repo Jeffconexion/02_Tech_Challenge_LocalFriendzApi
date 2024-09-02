@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       # Passo 1: Checkout do repositório
       - name: Step 1 Checkout Repository
@@ -31,12 +32,13 @@ jobs:
       - name: Step 4 Build Project
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # Ajuste o caminho para o arquivo de solução ou projeto
 
-# Passo 6: Executar testes
-  tests:
-    needs: build
-    runs-on: ubuntu-latest
-    - name: Step 1 Checkout Repository
-      uses: actions/checkout@v4
+    tests:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-    - name: Step 2 Run Tests
-      run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
+        # Step 5: Run tests
+        - name: Run Tests
+          run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Adjust path to your solution or project file
