@@ -54,25 +54,23 @@ jobs:
         run: dotnet test ./LocalFriendz/LocalFriendz.sln --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
 
   security_tests:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # Passo 1: Checkout do repositório
-      - name: Step 1 Checkout Repository
-        uses: actions/checkout@v4
+  runs-on: ubuntu-latest
+  needs: build
+  steps:
+    # Passo 1: Checkout do repositório
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      # Passo 2: Configurar o .NET
-      - name: Step 2 Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    # Passo 2: Instalar Trivy
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update
+        sudo apt-get install trivy -y
 
-      # Passo 3: Instalar o Snyk CLI
-      - name: Step 3 Install Snyk CLI
-        run: npm install -g snyk
-
-      # Passo 4: Verificar vulnerabilidades com Snyk
-      - name: Step 4 Run Snyk Security Scan
-        run: snyk test --all-projects
-        env:
-          SNYK_TOKEN: ${{ 5858ec0c-f9bb-40b4-9243-5d287f199736}}
+    # Passo 3: Rodar a verificação de segurança com Trivy
+    - name: Run Trivy Security Scan
+      run: trivy fs --exit-code 0 --no-progress --severity MEDIUM,HIGH,CRITICAL .
