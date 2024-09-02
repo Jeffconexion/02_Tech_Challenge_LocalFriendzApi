@@ -32,13 +32,13 @@ jobs:
       - name: Step 4 Build Project
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # Ajuste o caminho para o arquivo de solução ou projeto
 
-    tests:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        # Step 5: Run tests
-        - name: Run Tests
-          run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Adjust path to your solution or project file
+      # Step 5: Run tests
+      - name: Run Tests
+        run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Adjust path to your solution or project file
