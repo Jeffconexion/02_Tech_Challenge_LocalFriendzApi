@@ -59,7 +59,7 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    needs: build
+    #needs: build
     steps:
       # Passo 1: Checkout do repositório para acessar o código fonte
       - name: Step 1 Checkout Repository
