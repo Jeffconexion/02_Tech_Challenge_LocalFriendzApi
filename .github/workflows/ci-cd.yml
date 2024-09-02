@@ -1,43 +1,41 @@
-name: LocalFriendz CI/CD Workflow
+# This workflow will build and test a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: LocalFriendz Workflow
 
 on:
   push:
-    branches:
-      - master
+    branches: ["master"]
   pull_request:
-    branches:
-      - master
+    branches: ["master"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout Repository
+      # Passo 1: Checkout do repositório
+      - name: Step 1 Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Setup .NET
-      - name: Setup .NET
+      # Passo 2: Configurar o .NET
+      - name: Step 2 Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
-      # Step 3: Restore dependencies
-      - name: Restore Dependencies
-        run: dotnet restore ./LocalFriendz/LocalFriendz.sln # Adjust path to your solution or project file
+      # Passo 3: Restaurar dependências
+      - name: Step 3 Restore Dependencies
+        run: dotnet restore ./LocalFriendz/LocalFriendz.sln # Ajuste o caminho para o arquivo de solução ou projeto
 
-      # Step 4: Build the project
-      - name: Build Project
-        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # Adjust path to your solution or project file
+      # Passo 4: Construir o projeto
+      - name: Step 4 Build Project
+        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # Ajuste o caminho para o arquivo de solução ou projeto
 
-  tests:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # Passo 5: Análise de código com StyleCop
+      - name: Step 5 Run StyleCop Analysis
+        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore
 
-      # Step 2: Run tests
-      - name: Run Tests
-        run: dotnet test ./LocalFriendz/tests/LocalFriendzApi.UnitTests/LocalFriendzApi.UnitTests.csproj --no-build --verbosity normal
+      # Passo 6: Executar testes
+      - name: Step 6 Run Tests
+        run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
