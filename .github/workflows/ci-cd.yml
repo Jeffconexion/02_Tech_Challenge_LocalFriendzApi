@@ -60,15 +60,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install OWASP Dependency-Check
-        run: |
-          curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v8.0.2/dependency-check-8.0.2-release.zip -o dependency-check.zip
-          unzip dependency-check.zip -d dependency-check
-          ls -al dependency-check
-          ls -al dependency-check/bin
-          echo "dependency-check/bin" >> $GITHUB_PATH
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-      - name: Run OWASP Dependency-Check
-        run: |
-          dependency-check/bin/dependency-check.sh --project LocalFriendz --out dependency-check-report --scan . --format HTML
-          ls -al dependency-check-report
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Run Snyk Security Scan
+        run: snyk test --all-projects
+        # Para não precisar de autenticação com token, apenas para funcionalidades básicas
+        # Se precisar de um token, configure o segredo SNYK_TOKEN no GitHub Secrets
+        # env:
+        #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
