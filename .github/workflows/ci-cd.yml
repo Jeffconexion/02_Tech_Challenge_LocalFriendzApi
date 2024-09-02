@@ -12,7 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       # Passo 1: Checkout do repositório
       - name: Step 1 Checkout Repository
@@ -32,10 +31,7 @@ jobs:
       - name: Step 4 Build Project
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore # Ajuste o caminho para o arquivo de solução ou projeto
 
-      # Passo 5: Análise de código com StyleCop
-      - name: Step 5 Run StyleCop Analysis
-        run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore
-
-      # Passo 6: Executar testes
-      - name: Step 6 Run Tests
-        run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
+  tests:
+    # Passo 6: Executar testes
+    - name: Step 6 Run Tests
+      run: dotnet test ./LocalFriendz/LocalFriendz.sln --no-build --verbosity normal # Ajuste o caminho para o arquivo de solução ou projeto
