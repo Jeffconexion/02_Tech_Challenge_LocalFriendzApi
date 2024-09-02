@@ -64,7 +64,11 @@ jobs:
         run: |
           curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v8.0.2/dependency-check-8.0.2-release.zip -o dependency-check.zip
           unzip dependency-check.zip -d dependency-check
+          ls -al dependency-check
+          ls -al dependency-check/bin
           echo "dependency-check/bin" >> $GITHUB_PATH
 
       - name: Run OWASP Dependency-Check
-        run: dependency-check/bin/dependency-check.sh --project LocalFriendz --out dependency-check-report --scan . --format HTML
+        run: |
+          dependency-check/bin/dependency-check.sh --project LocalFriendz --out dependency-check-report --scan . --format HTML
+          ls -al dependency-check-report
