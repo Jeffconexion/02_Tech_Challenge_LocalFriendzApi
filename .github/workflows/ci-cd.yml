@@ -35,7 +35,7 @@ jobs:
       - name: Step 5 Run StyleCop Analysis
         run: dotnet build ./LocalFriendz/LocalFriendz.sln --no-restore
 
-  tests:
+  Unit_Tests:
     runs-on: ubuntu-latest
     needs: build
     steps:
