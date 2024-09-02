@@ -57,24 +57,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout Repository
+      # Passo 1: Checkout do repositório
+      - name: Step 1 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      # Passo 2: Configurar o .NET
+      - name: Step 2 Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
-      - name: SonarCloud Setup
-        uses: SonarSource/sonarcloud-github-action@v3.0.0
-        with:
-          args: >
-            -Dsonar.projectKey=LocalFriendz
-            -Dsonar.organization=your-organization
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # Passo 3: Instalar o Snyk CLI
+      - name: Step 3 Install Snyk CLI
+        run: npm install -g snyk
 
-      - name: SonarCloud Scan
-        run: |
-          dotnet build ./LocalFriendz/LocalFriendz.sln /p:sonar=true
-          sonar-scanner
+      # Passo 4: Verificar vulnerabilidades com Snyk
+      - name: Step 4 Run Snyk Security Scan
+        run: snyk test --all-projects
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
