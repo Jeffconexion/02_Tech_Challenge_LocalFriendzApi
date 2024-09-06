@@ -71,6 +71,6 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      # Passo 3: Executa os testes unitários para validar o comportamento do código
+      # Passo 3: Executa os testes unitários para validar o comportamento do códig
       - name: Step 3 Run Tests
         run: dotnet test ./LocalFriendz/LocalFriendz.sln --verbosity normal
