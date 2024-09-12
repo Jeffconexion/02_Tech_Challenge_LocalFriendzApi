@@ -5,6 +5,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------
 
+using LocalFriendzApi.Infrastructure.Data.DatabaseManagementForDocker;
 using LocalFriendzApi.UI.Configuration;
 using LocalFriendzApi.UI.Endpoints;
 using LocalFriendzApi.UI.Middlewares;
@@ -21,6 +22,8 @@ builder.AddFluentValidation();
 
 var app = builder.Build();
 app.MapEndpoints();
+
+DataBaseManagementService.MigrationInitialisation(app);
 
 if (app.Environment.IsDevelopment())
 {

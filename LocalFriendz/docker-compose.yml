@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  localfriendzapi.ui:
+    image: ${DOCKER_REGISTRY-}localfriendzapiui
+    build:
+      context: .
+      dockerfile: src/LocalFriendzApi.UI/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=DB_FIAP_ARQUITETO;User ID=sa;Password=nR2B5j9gEy;Trusted_Connection=False;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    networks:
+      - app-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "nR2B5j9gEy"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - app-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+  app-network:
