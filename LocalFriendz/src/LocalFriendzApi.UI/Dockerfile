@@ -11,6 +11,7 @@ COPY ["src/LocalFriendzApi.UI/LocalFriendzApi.UI.csproj", "src/LocalFriendzApi.U
 COPY ["src/LocalFriendzApi.Application/LocalFriendzApi.Application.csproj", "src/LocalFriendzApi.Application/"]
 COPY ["src/LocalFriendzApi.Domain/LocalFriendzApi.Domain.csproj", "src/LocalFriendzApi.Domain/"]
 COPY ["src/LocalFriendzApi.Infrastructure/LocalFriendzApi.Infrastructure.csproj", "src/LocalFriendzApi.Infrastructure/"]
+COPY ["src/LocalFriendzApi.UnitTests/LocalFriendzApi.UnitTests.csproj", "src/LocalFriendzApi.UnitTests/"]
 RUN dotnet restore "./src/LocalFriendzApi.UI/LocalFriendzApi.UI.csproj"
 COPY . .
 WORKDIR "/src/src/LocalFriendzApi.UI"
