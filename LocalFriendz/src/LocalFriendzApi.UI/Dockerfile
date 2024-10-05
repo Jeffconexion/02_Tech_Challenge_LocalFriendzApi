@@ -1,26 +1,30 @@
+# Stage 1: Base image with .NET runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
+USER app
 EXPOSE 8080
-EXPOSE 8081
 
+# Stage 2: Build environment with .NET SDK
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/LocalFriendzApi.UI/LocalFriendzApi.UI.csproj", "src/LocalFriendzApi.UI/"]
-COPY ["src/LocalFriendzApi.Application/LocalFriendzApi.Application.csproj", "src/LocalFriendzApi.Application/"]
-COPY ["src/LocalFriendzApi.Domain/LocalFriendzApi.Domain.csproj", "src/LocalFriendzApi.Domain/"]
-COPY ["src/LocalFriendzApi.Infrastructure/LocalFriendzApi.Infrastructure.csproj", "src/LocalFriendzApi.Infrastructure/"]
-COPY ["src/LocalFriendzApi.UnitTests/LocalFriendzApi.UnitTests.csproj", "src/LocalFriendzApi.UnitTests/"]
-RUN dotnet restore "./src/LocalFriendzApi.UI/LocalFriendzApi.UI.csproj"
-COPY . .
-WORKDIR "/src/src/LocalFriendzApi.UI"
-RUN dotnet build "./LocalFriendzApi.UI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Copy all project files
+COPY src/ .
+
+# Restore dependencies
+RUN dotnet restore "LocalFriendzApi.UI/LocalFriendzApi.UI.csproj"
+
+# Build the project
+WORKDIR "/src/LocalFriendzApi.UI"
+RUN dotnet build -c $BUILD_CONFIGURATION -o /app/build
+
+# Stage 3: Publish
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./LocalFriendzApi.UI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+# Stage 4: Final runtime image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

@@ -19,8 +19,11 @@ builder.AddDocumentation();
 builder.AddLogging();
 builder.ExternalServices();
 builder.AddFluentValidation();
+builder.AddServicesOpenTelemetry();
 
 var app = builder.Build();
+
+app.MapPrometheusScrapingEndpoint();
 app.MapEndpoints();
 
 DataBaseManagementService.MigrationInitialisation(app);
@@ -31,6 +34,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseLoggingMiddleware();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.Run();

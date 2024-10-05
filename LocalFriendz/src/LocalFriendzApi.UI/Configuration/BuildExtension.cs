@@ -15,7 +15,10 @@ using LocalFriendzApi.Infrastructure.ExternalServices.Interfaces;
 using LocalFriendzApi.Infrastructure.Logging;
 using LocalFriendzApi.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
 using Refit;
+using System.Diagnostics.Metrics;
+using System.Text.RegularExpressions;
 
 namespace LocalFriendzApi.UI.Configuration
 {
@@ -48,6 +51,36 @@ namespace LocalFriendzApi.UI.Configuration
                 .Services
                 .AddTransient<IContactRepository, ContactRepository>();
         }
+
+        public static void AddServicesOpenTelemetry(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddOpenTelemetry()
+            .WithMetrics(builder =>
+            {
+                builder.AddPrometheusExporter();
+                builder.AddMeter("Microsoft.AspNetCore.Hosting",
+                    "Microsoft.AspNetCore.Server.Kestrel");
+                builder.AddView("http.server.request.duration",
+                    new ExplicitBucketHistogramConfiguration
+                    {
+                        Boundaries = new double[] { 0, 0.005, 0.01, 0.025, 0.05,
+                              0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10 }
+                    });
+
+
+                // Configura as views de histogramas para latência, CPU e memória
+                builder.AddView("process.cpu.usage", new ExplicitBucketHistogramConfiguration
+                {
+                    Boundaries = new double[] { 0, 0.25, 0.5, 0.75, 1 }
+                });
+
+                builder.AddView("process.memory.usage", new ExplicitBucketHistogramConfiguration
+                {
+                    Boundaries = new double[] { 0, 100 * 1024 * 1024, 500 * 1024 * 1024, 1 * 1024 * 1024 * 1024 } // limites de 100MB, 500MB, 1GB
+                });
+            });
+        }
+
 
         public static void AddDocumentation(this WebApplicationBuilder builder)
         {
